@@ -1,5 +1,6 @@
 # CustomArrayList_using_OOPs
 
+ 
 public class CustomArrayList {
     int cap;
     int[] arr;
@@ -11,59 +12,45 @@ public class CustomArrayList {
         this.arr = new int[cap];
     }
 
-    public void add(int ele) {
+    public void add(int ele) { // O(30)
         if (this.nel == this.cap) {
-            System.out.println("grow");
+            // System.out.println("grow");
             Grow();
         }
         this.arr[this.nel++] = ele;
     }
 
-    public void add(int idx, int ele) {
+    public void add(int idx, int ele) { // O(n)
         if (this.nel == this.cap)
             Grow();
-        else if (idx == this.nel)
-            this.arr[this.nel++] = ele;
-        else if (idx == 0) {
-            int[] temp = new int[this.Size() + 1];
-            temp[0] = ele;
-            for (int i = 0; i < this.Size(); i++)
-                temp[i + 1] = this.arr[i];
+        if (idx < 0 || idx > this.Size())
+            System.out.println("index out of bond");
+        else {
+            for (int i = idx; i < this.Size(); i++) {
+                int temp = arr[idx];
+                arr[idx] = ele;
+                ele = temp;
+            }
+            arr[this.Size()] = ele;
             this.nel++;
-            this.arr = temp;
-        }
-
-        else if (0 < idx & idx < this.nel) {
-            int[] temp = new int[this.Size() + 1];
-            for (int i = 0; i < idx; i++)
-                temp[i] = this.arr[i];
-            temp[idx] = ele;
-            for (int i = idx; i < this.Size(); i++)
-                temp[i + 1] = this.arr[i];
-            this.nel++;
-            this.arr = temp;
         }
     }
 
-    public void remove() {
+    public void remove() { // O(1)
         this.nel--;
     }
 
-    public void remove(int idx) {
-        if (idx == this.nel)
-            this.nel--;
-        else if (idx >= 0 & idx < this.nel) {
-            int[] temp = new int[this.cap];
-            for (int i = 0; i < idx; i++)
-                temp[i] = this.arr[i];
-            for (int i = idx + 1; i < this.Size(); i++)
-                temp[i - 1] = this.arr[i];
-            this.arr = temp;
+    public void remove(int idx) { // O(n)
+        if (idx < 0 || idx > this.Size())
+            System.out.println("index out of bond");
+        else {
+            for (int i = idx; i < this.Size() - 1; i++)
+                arr[i] = arr[i + 1];
             this.nel--;
         }
     }
 
-    private void Grow() {
+    private void Grow() { // O(n)
         this.cap *= 2;
         int[] temp = new int[this.cap];
         for (int i = 0; i < Size(); i++) {
@@ -72,11 +59,11 @@ public class CustomArrayList {
         this.arr = temp;
     }
 
-    public int Size() {
+    public int Size() { // O(1)
         return this.nel;
     }
 
-    public String toString() {
+    public String toString() { // O(n)
         StringBuilder sb = new StringBuilder();
         sb.append("[");
         for (int i = 0; i < this.Size() - 1; i++) {
@@ -87,3 +74,8 @@ public class CustomArrayList {
         return sb.toString();
     }
 }
+
+
+    
+          
+      
